@@ -1,12 +1,12 @@
-import Express from "express";
+import Express, { response } from "express";
 
 const app = Express();
 app.use(Express.json())
 
 const games = [
   {
-    id: 1,
-    name: "Valorant",
+    "id": 1,
+    "name": "Valorant",
   },
 ];
 
@@ -36,6 +36,13 @@ app.put('/games/:id',(request,response)=>{ //metodo de atualização
     response.json(games)
 })
 
+
+app.delete('/games/:id',(request,response)=>{ //metodo de deletar
+    let index = buscaGame(request.params.id);
+    games.splice(index,1);
+    response.send(`O livro ${request.params.id} foi deletado com sucesso!`);
+})
+    
 
 function buscaGame(id){
     return games.findIndex(game => game.id == id); // Busca id que seja igual ao que foi passado no corpo da requisição

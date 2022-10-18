@@ -1,5 +1,6 @@
 import Express from "express";
 import db from "../config/dbConnect.js";
+import games from "../models/game.js";
 
 db.on("error", console.error.bind(console, "connection error:")); //mostra erro, caso ocorra
 db.once("open", function () {
@@ -9,20 +10,27 @@ db.once("open", function () {
 const app = Express();
 app.use(Express.json());
 
-const games = [
-  {
-    id: 1,
-    name: "Valorant",
-  },
-];
+// const games = [
+//   {
+//     id: 1,
+//     name: "Valorant",
+//   },
+// ];
 
 app.get("/", (request, response) => {
   response.status(200).send("Meu curso!");
 });
 
+
 app.get("/games", (request, response) => {
   //metodo de get
-  response.status(200).json(games);
+    games.find((error, games) => {
+        if (error) {
+            return response.status(500).send(error);
+        } else {
+            return response.status(200).send(games);
+        }
+    });
 });
 
 app.get("/games/:id", (request, response) => {

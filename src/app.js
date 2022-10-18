@@ -1,4 +1,10 @@
 import Express from "express";
+import db from "../config/dbConnect.js";
+
+db.on("error", console.error.bind(console, "connection error:")); //mostra erro, caso ocorra
+db.once("open", function () {
+  console.log("Conectado ao banco de dados!");
+});
 
 const app = Express();
 app.use(Express.json());
@@ -49,3 +55,28 @@ function buscaGame(id) {
 }
 
 export default app;
+
+let value = false;
+console.log("pedir uber");
+const promessa = new Promise((resolve, reject) => {
+  if (value === false) {
+    resolve("carro chegou");
+  } else {
+    reject("Carro não chegou");
+  }
+});
+console.log("aguardando");
+promessa.then((result) => console.log(result));
+promessa.catch((error) => console.log(error));
+
+// Promessa é rejeitada e usamos o catch() para capturar o erro
+// console.log('pedir uber')
+// const promessa = new Promise((resolve, reject) => {
+// 	return reject('pedido negado!')
+// })
+
+// console.log('aguardando')
+
+// promessa
+// 	.then(result => console.log(result))
+// 	.catch(erro => console.log(erro))
